@@ -14,10 +14,10 @@ class AdjacencyListGraph(IAbstractGraph):
         self.adjacencyList = {}
 
     def addNode(self, node):
-        if " " not in node:
-            self.adjacencyList.update({node: []})
+        if not node:
+            raise Exception
         else:
-            raise Exception("more than one word")
+            self.adjacencyList.update({node: []})
 
     def addEdges(self, nodeName, args):
         args = args.split()
@@ -27,8 +27,8 @@ class AdjacencyListGraph(IAbstractGraph):
             self.adjacencyList[nodeName].append(i)
 
     def shortestPath(self, begin, end):
-        if begin not in self.adjacencyList or end not in self.adjacencyList:
-            raise WrongNodeError((begin, end))
+        if not begin or not end or begin not in self.adjacencyList or end not in self.adjacencyList:
+            raise Exception
         else:
             queue = [[begin]]
             while queue:
@@ -53,10 +53,15 @@ class AdjacencyListGraph(IAbstractGraph):
         del self.adjacencyList[node]
 
     def removeConnection(self, nodeName, args):
-
-        args = args.split()
-        for i in args:
-            self.adjacencyList[nodeName].remove(i)
+        if nodeName not in self.adjacencyList:
+            raise Exception(nodeName)
+        else:
+            args = args.split()
+            for i in args:
+                if i not in self.adjacencyList[nodeName]:
+                    raise Exception(i)
+                else:
+                    self.adjacencyList[nodeName].remove(i)
 
 
 

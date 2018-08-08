@@ -59,10 +59,10 @@ class MainWindow(Frame, CreateObject):
     def AddNode(self):
         try:
             self.listInstance.addNode(self.nodeEntry.get())
-        except Exception as e:
-            messagebox.showerror("Error", "%s" % e.args)
+        except Exception:
+            messagebox.showerror("Error", "Empty entry")
         else:
-            messagebox.showinfo("Information","Node %s added to list" % self.nodeEntry.get())
+            messagebox.showinfo("Information", "Node %s added to list" % self.nodeEntry.get())
 
     def AddEdges(self):
         try:
@@ -84,13 +84,10 @@ class MainWindow(Frame, CreateObject):
     def RemoveConnection(self):
         try:
             self.listInstance.removeConnection(self.nodeEntry.get(), self.edgesEntry.get())
-        except KeyError as e:
-            messagebox.showerror("Error", "No node '%s' in list !" % e.args)
-        except ValueError as e:
-            messagebox.showerror("Error", "No edge in list !")
+        except Exception as e:
+            messagebox.showerror("Error", "No '%s' in list !" % e.args)
         else:
             messagebox.showinfo("Information", "Connection removed successfully :)")
-
 
     def ClearText(self, event):
         event.widget.delete(0, END)
@@ -124,15 +121,10 @@ class AdjListWindow(CreateObject):
     def ConnectCities(self):
         try:
             self.getStart = self.startComboBox.get()
-        except:
-
-        #self.getStart = self.getStart.replace("'", "").replace(",", "").replace("dict_keys([", "").replace("])", "")
-        #self.getDest = self.destComboBox.get()
-        #self.getDest = self.getDest.replace("'", "").replace(",", "").replace("dict_keys([", "").replace("])", "")
-        try:
+            self.getDest = self.destComboBox.get()
             self.textScrollbar.insert(INSERT, self.listInstance.shortestPath(self.getStart, self.getDest))
-        except WrongNodeError as e:
-            messagebox.showerror("Error", "No connection %s in list !" % e.value)
+        except Exception:
+            messagebox.showerror("Error", "No node in list !")
 
     def ReturnKeys(self):
         return [key for key, value in self.listInstance.adjacencyList.items()]
