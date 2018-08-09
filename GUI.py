@@ -31,8 +31,8 @@ class MainWindow(Frame, CreateObject):
                                foreground="grey")
         self.nodeEntry.grid(row=1, column=0, sticky=W + E + N + S)
         self.nodeEntry.bind("<Button-1>", self.ClearText)
-        self.nodeButton = Button(self, text="Add Node to list", command=self.AddNode, height=1, width=15) \
-            .grid(row=1, column=1)
+        self.nodeButton = Button(self, text="Add Node to list", command=self.AddNode, height=1, width=15)
+        self.nodeButton.grid(row=1, column=1)
         self.edgesEntry = Entry(self, textvariable=StringVar(value="Enter edges here (e.g. Krakow Rzeszow) "),
                                 foreground="grey")
         self.edgesEntry.grid(row=2, column=0, sticky=W + E + N + S)
@@ -41,21 +41,26 @@ class MainWindow(Frame, CreateObject):
         self.edgesButton.grid(row=2, column=1)
         self.emptyLabel = Label(self, text="").grid(row=3, column=0)
         self.emptyLabel = Label(self, text="").grid(row=4, column=0)
-        self.removeButton = Button(self, text="Remove Node", command=self.RemoveNode, height=1, width=15) \
-            .grid(row=3, column=1)
-        self.displayButton = Button(self, text="Current Connections", command=self.ShowConnections, height=1, width=15)\
-            .grid(row=5, column=1)
+        self.removeButton = Button(self, text="Remove Node", command=self.RemoveNode, height=1, width=15)
+        self.removeButton.grid(row=3, column=1)
+        self.displayButton = Button(self, text="Current Connections", command=self.ShowConnections, height=1, width=15)
+        self.displayButton.grid(row=5, column=1)
         self.clearButton = Button(self, text="Clear Box", command=lambda: self.scrolledText.delete(1.0, END), height=1,
                                   width=15).grid(row=6, column=1)
         self.scrolledText = ScrolledText(self, height=10, width=30)
         self.scrolledText.grid(row=6, column=0)
         self.removeConnectionButton = Button(self, text="Remove Connection", command=self.RemoveConnection, height=1,
-                                             width=15).grid(row=4, column=1)
-        self.listButton = Button(self, text="Connect Cities", command=AdjListFrameDisplay, height=1, width=12) \
+                                             width=15)
+        self.removeConnectionButton.grid(row=4, column=1)
+        self.listButton = Button(self, text="Browse connections", command=AdjListFrameDisplay, height=1, width=15) \
             .grid(row=7, column=0)
 
         # Buttons info
+        self.nodeButtonInfo = CreateTip(self.nodeButton, "Fill in node entry")
         self.edgesButtonInfo = CreateTip(self.edgesButton, "Fill in node entry and edges entry")
+        self.removeNodeInfo = CreateTip(self.removeButton, "Fill in node entry")
+        self.removeConnectionInfo = CreateTip(self.removeConnectionButton, "Fill in node entry and edges entry")
+        self.displayButtonInfo = CreateTip(self.displayButton, "Display current connections")
 
     def ShowConnections(self):
         """Adjacency List Class method to display connections"""
