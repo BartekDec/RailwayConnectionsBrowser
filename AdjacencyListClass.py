@@ -2,6 +2,7 @@ from AbstractGraphInterface import IAbstractGraph
 
 
 class WrongNodeError(Exception):
+    """Own exception class"""
     def __init__(self, value):
         self.value = value
 
@@ -10,6 +11,7 @@ class WrongNodeError(Exception):
 
 
 class AdjacencyListGraph(IAbstractGraph):
+    """Implementation an interface"""
     def __init__(self):
         self.adjacencyList = {}
 

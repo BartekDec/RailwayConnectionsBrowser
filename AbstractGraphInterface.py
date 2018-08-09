@@ -1,10 +1,9 @@
 class IAbstractGraph:
-    
+    """Graph Interface"""
     def addNode(self, node):
         raise NotImplementedError("Not Implemented Method")
 
     def addEdges(self, nodeName, args):
-
         raise NotImplementedError("Not Implemented Method")
 
     def shortestPath(self, begin, end):
@@ -18,4 +17,3 @@ class IAbstractGraph:
 
     def removeConnection(self, begin, end):
         raise NotImplementedError("Not Implemented Method")
-

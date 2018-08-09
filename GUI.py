@@ -9,12 +9,14 @@ from tkinter import messagebox
 
 
 class CreateObject:
+    """A class to initialize a representation of Adjacency List"""
     def __init__(self):
         self.listInstance = AdjacencyListClass.AdjacencyListGraph()
         self.listInstance.adjacencyList = {key: value for (key, value) in adjacencyList.items()}
 
 
 class MainWindow(Frame, CreateObject):
+    """ A class to create Main Window"""
     def __init__(self):
         Frame.__init__(self)
         CreateObject.__init__(self)
@@ -37,12 +39,11 @@ class MainWindow(Frame, CreateObject):
         self.edgesEntry.bind("<Button-1>", self.ClearText)
         self.edgesButton = Button(self, text="Add Edges to Node", command=self.AddEdges, height=1, width=15)
         self.edgesButton.grid(row=2, column=1)
-        self.edgesButtonInfo = CreateTip(self.edgesButton, "dziala")
         self.emptyLabel = Label(self, text="").grid(row=3, column=0)
         self.emptyLabel = Label(self, text="").grid(row=4, column=0)
         self.removeButton = Button(self, text="Remove Node", command=self.RemoveNode, height=1, width=15) \
             .grid(row=3, column=1)
-        self.displayButton = Button(self, text="Current Connections", command=self.ShowConnections, height=1, width=15) \
+        self.displayButton = Button(self, text="Current Connections", command=self.ShowConnections, height=1, width=15)\
             .grid(row=5, column=1)
         self.clearButton = Button(self, text="Clear Box", command=lambda: self.scrolledText.delete(1.0, END), height=1,
                                   width=15).grid(row=6, column=1)
@@ -53,10 +54,15 @@ class MainWindow(Frame, CreateObject):
         self.listButton = Button(self, text="Connect Cities", command=AdjListFrameDisplay, height=1, width=12) \
             .grid(row=7, column=0)
 
+        # Buttons info
+        self.edgesButtonInfo = CreateTip(self.edgesButton, "Fill in node entry and edges entry")
+
     def ShowConnections(self):
+        """Adjacency List Class method to display connections"""
         self.scrolledText.insert(INSERT, self.listInstance.displayGraph())
 
     def AddNode(self):
+        """Adjacency List Class method to add node to list"""
         try:
             self.listInstance.addNode(self.nodeEntry.get())
         except Exception:
@@ -65,6 +71,7 @@ class MainWindow(Frame, CreateObject):
             messagebox.showinfo("Information", "Node %s added to list" % self.nodeEntry.get())
 
     def AddEdges(self):
+        """Adjacency List Class method to add edges to node"""
         try:
             self.listInstance.addEdges(self.nodeEntry.get(), self.edgesEntry.get())
         except WrongNodeError as e:
@@ -74,6 +81,7 @@ class MainWindow(Frame, CreateObject):
                                                                               self.nodeEntry.get()))
 
     def RemoveNode(self):
+        """Adjacency List Class method to remove node from list"""
         try:
             self.listInstance.removeNode(self.nodeEntry.get())
         except KeyError as e:
@@ -82,6 +90,7 @@ class MainWindow(Frame, CreateObject):
             messagebox.showinfo("Information", "Node '%s' removed successfully :)" % self.nodeEntry.get())
 
     def RemoveConnection(self):
+        """Adjacency List Class method to remove connection from list"""
         try:
             self.listInstance.removeConnection(self.nodeEntry.get(), self.edgesEntry.get())
         except Exception as e:
@@ -90,11 +99,13 @@ class MainWindow(Frame, CreateObject):
             messagebox.showinfo("Information", "Connection removed successfully :)")
 
     def ClearText(self, event):
+        """Gui method to set color and clear input entry"""
         event.widget.delete(0, END)
         event.widget.config(foreground="black")
 
 
 class AdjListWindow(CreateObject):
+    """GUI class to create connection browser window"""
     def __init__(self):
         CreateObject.__init__(self)
         self.top = Toplevel()
@@ -119,6 +130,7 @@ class AdjListWindow(CreateObject):
         self.backButton = Button(self.top, text="Back", command=lambda: self.top.destroy()).grid(row=4, column=1)
 
     def ConnectCities(self):
+        """Adjacency List Class method to find shortest path between nodes"""
         try:
             self.getStart = self.startComboBox.get()
             self.getDest = self.destComboBox.get()
@@ -127,10 +139,12 @@ class AdjListWindow(CreateObject):
             messagebox.showerror("Error", "No node in list !")
 
     def ReturnKeys(self):
+        """GUI method to return keys from dict"""
         return [key for key, value in self.listInstance.adjacencyList.items()]
 
 
 class CreateTip(object):
+    """GUI class to create label tips while entering buttons"""
     def __init__(self, widget, text="widget info"):
         self.waitTime = 500
         self.wrapLength = 180
@@ -182,6 +196,7 @@ class CreateTip(object):
 
 
 def AdjListFrameDisplay():
+    """Creating instance of frame"""
     newWindowObject = AdjListWindow()
 
 
